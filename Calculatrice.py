@@ -7,20 +7,20 @@ extra_cheese = st.text_input("do you want extra_cheese? YES or NO")
 prix = 0
 
 if size == "small":
-    prix=15
+    prix=3000
 elif size == "medium":
-    prix=20
+    prix=4000
 elif size == "large":
-    prix=25
+    prix=5000
 
 if add_peperoni == "YES":
     if size == "small":
-        prix +=2
+        prix +=1000
     else:
-        prix +=3
+        prix +=1500
 
 if extra_cheese == "YES":
-    prix +=1
+    prix +=1500
 
 print(f"VOTRE FACTURE FINALE EST DE:{prix}FCFA")
 
