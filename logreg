@@ -1,0 +1,46 @@
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.datasets import make_classification
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, confusion_matrix
+import pickle 
+import sklearn
+from sklearn.linear_model import LogisticRegression
+
+data = pd.read_csv('African_crises_dataset.csv')
+(data)
+(data.describe())
+(data.shape)
+(data.isnull().sum())
+(data.info())
+
+
+for col in data.columns:
+    if data[col].dtype == 'object':
+        le = LabelEncoder()
+        data[col] = le.fit_transform(data[col].astype('string'))
+
+data['exch_usd'] = data['exch_usd'].astype('int')
+data['gdp_weighted_default'] = data['gdp_weighted_default'].astype('int')
+data['inflation_annual_cpi'] = data['inflation_annual_cpi'].astype('int')
+
+data.info()
+
+x = data.drop([ 'country_code', 'country', 'systemic_crisis'], axis = 1)
+y = data['systemic_crisis']
+
+x_train,x_test,y_train,y_test = train_test_split(x, y,test_size = 0.2,random_state = 42)
+                                                 
+#x_train.shape,x_test.shape,y_train.shape,y_test.shape                                 
+
+logreg = LogisticRegression()
+logreg.fit(x_train, y_train)
+y_pred = logreg.predict(x_test)
+
+("Accuracy:", accuracy_score(y_test, y_pred))
+            
