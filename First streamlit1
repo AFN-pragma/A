@@ -1,0 +1,33 @@
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+import streamlit as st
+import pandas as pd
+import joblib
+
+DATA = pd.read_csv("Expresso.csv")
+DATA
+
+(DATA.info())
+(DATA.shape)
+(DATA.describe())
+(DATA.isnull().sum())
+
+duplicate_mask = DATA.duplicated()
+duplicates = DATA[duplicate_mask]
+print(duplicates)
+
+data = DATA.drop_duplicates()
+data = data.fillna(0)
+data
+from sklearn.linear_model import LogisticRegression
+
+x = data.drop(["user_id", "REGION", "TENURE", "MRG", "TOP_PACK"], axis = 1)
+y = data["CHURN"]
+x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.25,random_state=0)
+logreg = LogisticRegression()
+logreg.fit(x_train, y_train)
+y_pred  = logreg.predict(x_test)
+accuracy_score(y_test, y_pred)
